@@ -251,6 +251,14 @@ h1 em{font-style:normal;color:var(--blurple)}
   user-select:none;
 }
 
+.av img{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  object-fit:cover;
+  display:block;
+}
+
 .av::after{
   content:"";
   position:absolute;
@@ -524,7 +532,7 @@ footer a:hover{border-color:var(--ink)}
     </article>
 
     <article class="member">
-      <div class="av" style="background:#2f6b6b">W</div>
+      <div class="av" style="background:#2f6b6b"><img src="src/wietse.webp" alt="Wietse" loading="lazy"></div>
       <div>
         <div class="top">
           <span class="name">Wietse</span>
