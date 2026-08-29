@@ -70,6 +70,14 @@
     font-weight: 400;
     opacity: 0.65;
   }
+
+  .subnote {
+    margin: 0.8em auto 0;
+    max-width: 46ch;
+    font-size: clamp(0.85rem, 2.2vw, 1.1rem);
+    font-weight: 400;
+    opacity: 0.65;
+  }
   main {
   background: #000;
   color: #fff;
@@ -96,8 +104,10 @@
     <main>
       <div style="padding: 50px 0;"></div>
       <p class="label">LDC Revived Discord Call has been running for:</p>
-      <span id="timer" data-start="1785951000">—</span>
+      <span id="timer" data-start="1787998260">—</span>
+      <p class="subnote">The old call lasted <span id="old-timer" data-start="1785951000" data-end="1787998260">—</span>.</p>
       <p id="tz">Loading...</p>
+      <p class="subnote">The old call ended because nobody was in it, so the call restarted on <span id="restart">...</span>.</p>
     </main>
     <div style="padding: 300px 0; background: #000;"></div>
     <div class="seperator"></div>
@@ -120,6 +130,15 @@
   const start = new Date(Number(el.dataset.start) * 1000);
   const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
   tzEl.textContent = "Your timezone: " + tz;
+
+  document.getElementById("restart").textContent =
+    start.toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
+
+  const oldEl = document.getElementById("old-timer");
+  oldEl.textContent = fmt(
+    new Date(Number(oldEl.dataset.start) * 1000),
+    new Date(Number(oldEl.dataset.end) * 1000)
+  ).replace(/ 0s$/, "");
 
   function fmt(from, to) {
     const cursor = new Date(from);

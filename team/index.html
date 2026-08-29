@@ -10,14 +10,68 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
+/* light is the default; dark only kicks in once someone asks for it.
+   the palette names are light-theme mnemonics, the roles carry over. */
 :root{
+  color-scheme:light;
+
   --wheat:#f5deb3;
   --husk:#c9a96a;
   --ink:#241c10;
   --ink-soft:#6b5738;
   --live:#1f9d55;
+  --live-rgb:31,157,85;
   --blurple:#5865f2;
+  --blurple-deep:#4752d4;
   --card:#f9e9c8;
+
+  --well:rgba(245,222,179,.6);
+  --line:rgba(201,169,106,.7);
+  --line-vm:rgba(201,169,106,.85);
+  --track:rgba(36,28,16,.22);
+  --knob:#f9e9c8;
+  --chip-bg:rgba(36,28,16,.07);
+  --job-bg:rgba(201,169,106,.16);
+  --left-bg:rgba(201,169,106,.14);
+  --key-bg:rgba(88,101,242,.14);
+  --key-fg:#3b45c4;
+  --shadow:rgba(36,28,16,.22);
+  --shadow-soft:rgba(36,28,16,.16);
+  --on-solid:#fff;
+  --on-av:#f5deb3;
+  --grain-blend:multiply;
+  --grain-opacity:.32;
+}
+
+[data-theme="dark"]{
+  color-scheme:dark;
+
+  --wheat:#17130d;
+  --husk:#4d3f28;
+  --ink:#f2e4c8;
+  --ink-soft:#b09a72;
+  --live:#3ecf7f;
+  --live-rgb:62,207,127;
+  --blurple:#8d95ff;
+  --blurple-deep:#7079f0;
+  --card:#221b12;
+
+  --well:rgba(0,0,0,.28);
+  --line:rgba(122,99,62,.55);
+  --line-vm:rgba(122,99,62,.7);
+  --track:rgba(242,228,200,.2);
+  --knob:#d8c7a4;
+  --chip-bg:rgba(242,228,200,.09);
+  --job-bg:rgba(201,169,106,.13);
+  --left-bg:rgba(0,0,0,.22);
+  --key-bg:rgba(141,149,255,.16);
+  --key-fg:#b3b9ff;
+  --shadow:rgba(0,0,0,.5);
+  --shadow-soft:rgba(0,0,0,.4);
+  --on-solid:#17130d;
+  /* multiply grain would just muddy a dark page, so lighten instead */
+  --grain-blend:screen;
+  --grain-opacity:.14;
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -39,8 +93,8 @@ body{
   inset:0;
   pointer-events:none;
   z-index:99;
-  opacity:.32;
-  mix-blend-mode:multiply;
+  opacity:var(--grain-opacity);
+  mix-blend-mode:var(--grain-blend);
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E");
 }
 
@@ -62,6 +116,38 @@ body{
 }
 
 .eyebrow .rule{height:1px;flex:1;background:var(--husk);max-width:200px}
+
+/* ---------- theme switch ---------- */
+
+.themetoggle{
+  margin-left:auto;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 13px;
+  border:1px solid var(--husk);
+  border-radius:999px;
+  background:var(--well);
+  font:inherit;
+  font-size:.7rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  cursor:pointer;
+  transition:border-color .2s ease,color .2s ease,transform .18s ease;
+}
+
+.themetoggle:hover{border-color:var(--ink);color:var(--ink);transform:translateY(-1px)}
+.themetoggle svg{width:13px;height:13px;fill:currentColor;display:block}
+.themetoggle .ico-moon{display:none}
+[data-theme="dark"] .themetoggle .ico-sun{display:none}
+[data-theme="dark"] .themetoggle .ico-moon{display:block}
+
+/* only while the palette is actually swapping, so the scroll-in
+   transitions on .member keep their own timing the rest of the time */
+.theming *,.theming *::before,.theming *::after{
+  transition:background-color .3s ease,color .3s ease,border-color .3s ease,box-shadow .3s ease!important;
+}
 
 .callout{
   margin-top:clamp(30px,6vh,54px);
@@ -95,6 +181,15 @@ body{
 
 .livetag{display:inline-flex;align-items:center;gap:8px;color:var(--live);font-weight:600}
 
+.subline{
+  margin-top:14px;
+  max-width:60ch;
+  font-family:"IBM Plex Mono",monospace;
+  font-size:.78rem;
+  letter-spacing:.06em;
+  color:var(--ink-soft);
+}
+
 .dot{
   width:9px;height:9px;border-radius:50%;
   background:var(--live);
@@ -102,9 +197,9 @@ body{
 }
 
 @keyframes ping{
-  0%{box-shadow:0 0 0 0 rgba(31,157,85,.5)}
-  70%{box-shadow:0 0 0 11px rgba(31,157,85,0)}
-  100%{box-shadow:0 0 0 0 rgba(31,157,85,0)}
+  0%{box-shadow:0 0 0 0 rgba(var(--live-rgb),.5)}
+  70%{box-shadow:0 0 0 11px rgba(var(--live-rgb),0)}
+  100%{box-shadow:0 0 0 0 rgba(var(--live-rgb),0)}
 }
 
 h1{
@@ -145,11 +240,11 @@ h1 em{font-style:normal;color:var(--blurple)}
   transform:translateY(-2px);
   background:var(--ink);
   color:var(--wheat);
-  box-shadow:0 8px 0 -3px rgba(36,28,16,.22);
+  box-shadow:0 8px 0 -3px var(--shadow);
 }
 
-.btn.solid{background:var(--blurple);border-color:var(--blurple);color:#fff}
-.btn.solid:hover{background:#4752d4;border-color:#4752d4;color:#fff}
+.btn.solid{background:var(--blurple);border-color:var(--blurple);color:var(--on-solid)}
+.btn.solid:hover{background:var(--blurple-deep);border-color:var(--blurple-deep);color:var(--on-solid)}
 
 .btn .arw{transition:transform .18s ease}
 .btn:hover .arw{transform:translateX(3px)}
@@ -187,7 +282,7 @@ h1 em{font-style:normal;color:var(--blurple)}
   padding:8px 16px 8px 8px;
   border:1px solid var(--husk);
   border-radius:999px;
-  background:rgba(245,222,179,.6);
+  background:var(--well);
   font-family:"IBM Plex Mono",monospace;
   font-size:.72rem;
   letter-spacing:.12em;
@@ -200,7 +295,7 @@ h1 em{font-style:normal;color:var(--blurple)}
 .hovertoggle .track{
   width:32px;height:18px;
   border-radius:999px;
-  background:rgba(36,28,16,.22);
+  background:var(--track);
   position:relative;
   transition:background .2s ease;
 }
@@ -211,7 +306,7 @@ h1 em{font-style:normal;color:var(--blurple)}
   top:2px;left:2px;
   width:14px;height:14px;
   border-radius:50%;
-  background:var(--card);
+  background:var(--knob);
   transition:transform .2s ease;
 }
 
@@ -225,7 +320,7 @@ h1 em{font-style:normal;color:var(--blurple)}
   gap:24px;
   align-items:start;
   padding:26px 22px;
-  border:1px solid rgba(201,169,106,.7);
+  border:1px solid var(--line);
   border-radius:18px;
   background:var(--card);
   margin-bottom:14px;
@@ -236,7 +331,7 @@ h1 em{font-style:normal;color:var(--blurple)}
 
 .member.in{opacity:1;transform:none}
 
-.member:hover{border-color:var(--ink);box-shadow:0 10px 0 -4px rgba(36,28,16,.16)}
+.member:hover{border-color:var(--ink);box-shadow:0 10px 0 -4px var(--shadow-soft)}
 
 .av{
   position:relative;
@@ -247,7 +342,7 @@ h1 em{font-style:normal;color:var(--blurple)}
   place-items:center;
   font-weight:700;
   font-size:2rem;
-  color:var(--wheat);
+  color:var(--on-av);
   user-select:none;
 }
 
@@ -295,7 +390,28 @@ h1 em{font-style:normal;color:var(--blurple)}
   border:1px solid var(--husk);
   border-radius:6px;
   color:var(--ink-soft);
-  background:rgba(201,169,106,.16);
+  background:var(--job-bg);
+}
+
+/* same shape as .job, but it reads as state rather than role */
+.status{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:.68rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  padding:4px 9px;
+  border:1px dashed var(--husk);
+  border-radius:6px;
+  color:var(--ink-soft);
+  background:var(--left-bg);
+}
+
+.fresh{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:.68rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--live);
 }
 
 .blurb{margin-top:10px;max-width:58ch;color:var(--ink-soft);font-size:1rem}
@@ -307,11 +423,11 @@ h1 em{font-style:normal;color:var(--blurple)}
   font-size:.72rem;
   padding:4px 10px;
   border-radius:999px;
-  background:rgba(36,28,16,.07);
+  background:var(--chip-bg);
   color:var(--ink);
 }
 
-.chip.key{background:rgba(88,101,242,.14);color:#3b45c4}
+.chip.key{background:var(--key-bg);color:var(--key-fg)}
 
 .speaknow{
   display:inline-flex;
@@ -341,9 +457,9 @@ h1 em{font-style:normal;color:var(--blurple)}
   gap:12px;
   max-width:420px;
   padding:9px 14px 9px 9px;
-  border:1px solid rgba(201,169,106,.85);
+  border:1px solid var(--line-vm);
   border-radius:999px;
-  background:rgba(245,222,179,.6);
+  background:var(--well);
 }
 
 .vmbtn{
@@ -380,7 +496,7 @@ h1 em{font-style:normal;color:var(--blurple)}
   flex:1;
   min-width:2px;
   border-radius:2px;
-  background:rgba(36,28,16,.22);
+  background:var(--track);
   transition:background .12s linear,transform .12s linear;
 }
 
@@ -400,7 +516,7 @@ h1 em{font-style:normal;color:var(--blurple)}
 
 .gone{padding-bottom:clamp(60px,10vh,110px)}
 
-.member.left{background:rgba(201,169,106,.14);border-style:dashed}
+.member.left{background:var(--left-bg);border-style:dashed}
 .member.left .av{filter:grayscale(1);opacity:.55}
 .member.left .av::after{display:none}
 .member.left:hover{box-shadow:none;border-color:var(--husk)}
@@ -442,6 +558,9 @@ footer a:hover{border-color:var(--ink)}
   .av{width:58px;height:58px;font-size:1.35rem}
   .name{font-size:1.35rem}
   .vm{max-width:none}
+  /* the eyebrow row is tight here, so the switch keeps just its icon */
+  .themetoggle{padding:6px 9px}
+  .themetoggle .tlabel{display:none}
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -451,6 +570,16 @@ footer a:hover{border-color:var(--ink)}
   html{scroll-behavior:auto}
 }
 </style>
+
+<script>
+/* runs before the first paint so a saved dark choice never flashes light */
+(function(){
+  try{
+    var saved = localStorage.getItem("ldc-theme");
+    if (saved === "dark" || saved === "light") document.documentElement.dataset.theme = saved;
+  }catch(e){}
+})();
+</script>
 </head>
 <body>
 
@@ -459,16 +588,26 @@ footer a:hover{border-color:var(--ink)}
 <main class="wrap">
 
   <section class="hero">
-    <p class="eyebrow rise"><span>LDC Revived</span><span class="rule"></span><span>the crew</span></p>
+    <p class="eyebrow rise">
+      <span>LDC Revived</span><span class="rule"></span><span>the crew</span>
+      <button class="themetoggle" type="button" aria-pressed="false" aria-label="switch to dark mode">
+        <svg class="ico-sun" viewBox="0 0 24 24"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-13.5a1 1 0 0 1-1-1V1a1 1 0 0 1 2 0v1.5a1 1 0 0 1-1 1zm0 19a1 1 0 0 1-1-1V20a1 1 0 0 1 2 0v1.5a1 1 0 0 1-1 1zM22.5 13H21a1 1 0 0 1 0-2h1.5a1 1 0 0 1 0 2zm-19.5 0H1.5a1 1 0 0 1 0-2H3a1 1 0 0 1 0 2zm16.02-7.52a1 1 0 0 1-.7-1.71l1.06-1.06a1 1 0 1 1 1.42 1.42l-1.07 1.06a1 1 0 0 1-.71.29zM4.4 20.6a1 1 0 0 1-.71-1.71l1.06-1.06a1 1 0 1 1 1.42 1.41L5.11 20.3a1 1 0 0 1-.71.29zm15.18 0a1 1 0 0 1-.7-.29l-1.07-1.06a1 1 0 0 1 1.42-1.41l1.06 1.06a1 1 0 0 1-.71 1.7zM5.46 5.48a1 1 0 0 1-.71-.29L3.69 4.13a1 1 0 0 1 1.42-1.42l1.06 1.06a1 1 0 0 1-.71 1.71z"/></svg>
+        <svg class="ico-moon" viewBox="0 0 24 24"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8 8 0 0 1-3.37.73A8.15 8.15 0 0 1 9.08 5.5a9 9 0 0 1 .25-2A1 1 0 0 0 8 2.36 10.14 10.14 0 1 0 22 14.05a1 1 0 0 0-.36-1.05z"/></svg>
+        <span class="tlabel">light</span>
+      </button>
+    </p>
 
     <p class="callout rise d1">the call has been running for</p>
-    <span id="timer" class="rise d1" data-start="1785951000">...</span>
+    <span id="timer" class="rise d1" data-start="1787998260">...</span>
+    <p class="subline rise d1">the old call made it <span id="old-timer" data-start="1785951000" data-end="1787998260">...</span> before this one.</p>
 
     <div class="metaline rise d2">
       <span class="livetag"><span class="dot"></span> still connected</span>
       <span id="tz"></span>
       <span>nobody hang up</span>
     </div>
+
+    <p class="subline rise d2">the old call ended because nobody was in it, so the call restarted on <span id="restart">...</span>.</p>
 
     <h1 class="rise d3">the people <em>keeping it alive</em></h1>
 
@@ -483,7 +622,7 @@ footer a:hover{border-color:var(--ink)}
   <section class="roster">
     <div class="sechead">
       <h2>in this channel</h2>
-      <span class="count">7 connected</span>
+      <span class="count">9 connected</span>
     </div>
 
     <p class="note">almost everyone here has the keys to the youtube channel. discord usernames stay off this page, that was the deal. hit play on a card if someone left a voice message.</p>
@@ -537,6 +676,7 @@ footer a:hover{border-color:var(--ink)}
         <div class="top">
           <span class="name">Wietse</span>
           <span class="job">24/7 uptime</span>
+          <span class="status" data-until="1788022800" title="back after 7pm">Currently inactive</span>
           <span class="speaknow"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12z"/></svg> speaking</span>
         </div>
         <p class="blurb">runs a discord account off his server pc around the clock so it can never drop out of the call. that one is an alt, his main stays free for normal calls.</p>
@@ -653,6 +793,22 @@ footer a:hover{border-color:var(--ink)}
         </div>
       </div>
     </article>
+
+    <article class="member">
+      <div class="av" style="background:#c8712c"><img src="../team/src/whirrling.webp" alt="Whirrling" loading="lazy"></div>
+      <div>
+        <div class="top">
+          <span class="name">Whirrling</span>
+          <span class="job">just joined</span>
+          <span class="fresh" data-joined="1788001200">...</span>
+          <span class="speaknow"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12z"/></svg> speaking</span>
+        </div>
+        <p class="blurb">newest one in here. walked into the call today and has not left since, which is the entire job description.</p>
+        <div class="chips">
+          <span class="chip">new arrival</span>
+        </div>
+      </div>
+    </article>
   </section>
 
   <section class="gone">
@@ -691,11 +847,53 @@ var CLIPS = {"p3":{"dur":22.65,"peaks":[0.499,0.791,0.681,0.63,0.426,0.483,0.502
 (function(){
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ---------- theme ---------- */
+
+  var root = document.documentElement;
+  var themeBtn = document.querySelector(".themetoggle");
+
+  if (themeBtn){
+    var themeLabel = themeBtn.querySelector(".tlabel");
+
+    var paintTheme = function(theme){
+      root.dataset.theme = theme;
+      themeLabel.textContent = theme;
+      themeBtn.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+      themeBtn.setAttribute("aria-label", "switch to " + (theme === "dark" ? "light" : "dark") + " mode");
+    };
+
+    /* light unless the head script already restored a saved dark */
+    paintTheme(root.dataset.theme === "dark" ? "dark" : "light");
+
+    var settle;
+    themeBtn.addEventListener("click", function(){
+      var next = root.dataset.theme === "dark" ? "light" : "dark";
+
+      if (!reduce){
+        root.classList.add("theming");
+        clearTimeout(settle);
+        settle = setTimeout(function(){ root.classList.remove("theming"); }, 320);
+      }
+
+      paintTheme(next);
+      try{ localStorage.setItem("ldc-theme", next); }catch(e){}
+    });
+  }
+
   /* live call timer, same math as the timer page */
   var el = document.getElementById("timer");
   var tzEl = document.getElementById("tz");
   var start = new Date(Number(el.dataset.start) * 1000);
   tzEl.textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  document.getElementById("restart").textContent =
+    start.toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
+
+  var oldEl = document.getElementById("old-timer");
+  oldEl.textContent = fmt(
+    new Date(Number(oldEl.dataset.start) * 1000),
+    new Date(Number(oldEl.dataset.end) * 1000)
+  ).replace(/ 0s$/, "");
 
   function fmt(from, to){
     var cursor = new Date(from);
@@ -728,6 +926,31 @@ var CLIPS = {"p3":{"dur":22.65,"peaks":[0.499,0.791,0.681,0.63,0.426,0.483,0.502
   }
   tick();
   setInterval(tick, 1000);
+
+  /* wietse is out until 7pm tonight; the badge clears itself at that instant */
+  var away = document.querySelector(".status[data-until]");
+  if (away){
+    var awayUntil = Number(away.dataset.until) * 1000;
+    var checkAway = function(){
+      if (Date.now() >= awayUntil){
+        away.parentNode.removeChild(away);
+        clearInterval(awayTimer);
+      }
+    };
+    var awayTimer = setInterval(checkAway, 30000);
+    checkAway();
+  }
+
+  /* how long the newest member has been in the call */
+  var joinedEl = document.querySelector(".fresh[data-joined]");
+  if (joinedEl){
+    var joined = new Date(Number(joinedEl.dataset.joined) * 1000);
+    var tickJoined = function(){
+      joinedEl.textContent = "joined " + fmt(joined, new Date()).replace(/ \d+s$/, "") + " ago";
+    };
+    tickJoined();
+    setInterval(tickJoined, 30000);
+  }
 
   /* cards slide in as you scroll */
   var cards = Array.prototype.slice.call(document.querySelectorAll(".member"));
