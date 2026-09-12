@@ -609,6 +609,8 @@ footer a:hover{border-color:var(--ink)}
 
     <p class="subline rise d2">the old call ended because nobody was in it, so the call restarted on <span id="restart">...</span>.</p>
 
+    <p class="subline rise d2">the group chat has been dead ever since this one started — school came back the same week. <span id="gc-dead">...</span> without a message in there.</p>
+
     <h1 class="rise d3">the people <em>keeping it alive</em></h1>
 
     <p class="lede rise d4">seven of us sit in one discord call that refuses to end. somebody is always recording it, somebody cuts it down, and the update videos go on youtube so you do not have to live in the vc yourself.</p>
@@ -622,7 +624,7 @@ footer a:hover{border-color:var(--ink)}
   <section class="roster">
     <div class="sechead">
       <h2>in this channel</h2>
-      <span class="count">9 connected</span>
+      <span class="count">10 connected</span>
     </div>
 
     <p class="note">almost everyone here has the keys to the youtube channel. discord usernames stay off this page, that was the deal. hit play on a card if someone left a voice message.</p>
@@ -659,9 +661,10 @@ footer a:hover{border-color:var(--ink)}
           <span class="name">Brett</span>
           <span class="alias">beet</span>
           <span class="job">recording</span>
+          <span class="status">nuc still down</span>
           <span class="speaknow"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12z"/></svg> speaking</span>
         </div>
-        <p class="blurb">Records almost the entire thing. If there is footage of LDC Revived, odds are Brett had the capture running (However his <a href="https://en.wikipedia.org/wiki/Next_Unit_of_Computing">NUC</a> crashed at one point, where he records to his NAS).</p>
+        <p class="blurb">Records almost the entire thing. If there is footage of LDC Revived, odds are Brett had the capture running (However his <a href="https://en.wikipedia.org/wiki/Next_Unit_of_Computing">NUC</a> crashed at one point, where he records to his NAS). Then he lost the NUC's power supply right before school started. The replacement landed somewhere around the 3rd to the 6th, he said he would swap it in on the 10th, and as of the 12th it is still sitting there.</p>
         <div class="chips">
           <span class="chip">recording</span>
           <span class="chip">the archive</span>
@@ -799,13 +802,31 @@ footer a:hover{border-color:var(--ink)}
       <div>
         <div class="top">
           <span class="name">Whirrling</span>
-          <span class="job">just joined</span>
+          <span class="job">still in there</span>
           <span class="fresh" data-joined="1788001200">...</span>
           <span class="speaknow"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12z"/></svg> speaking</span>
         </div>
-        <p class="blurb">newest one in here. walked into the call today and has not left since, which is the entire job description.</p>
+        <p class="blurb">walked into the call one afternoon and has not left since, which is the entire job description.</p>
+        <div class="chips">
+          <span class="chip">never left</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="member">
+      <div class="av" style="background:#6c4f9c"><img src="../team/src/ichim8.webp" alt="ichim8" loading="lazy"></div>
+      <div>
+        <div class="top">
+          <span class="name">ichim8</span>
+          <span class="job">just joined</span>
+          <span class="fresh" data-joined="1789216200">...</span>
+          <span class="status">maybe temporary</span>
+          <span class="speaknow"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12z"/></svg> speaking</span>
+        </div>
+        <p class="blurb">newest one in here, walked in at half two this afternoon. here to cover while Brett's NUC is still a paperweight, so this might be a short stay — depends entirely on that power supply.</p>
         <div class="chips">
           <span class="chip">new arrival</span>
+          <span class="chip">nuc stand-in</span>
         </div>
       </div>
     </article>
@@ -920,9 +941,17 @@ var CLIPS = {"p3":{"dur":22.65,"peaks":[0.499,0.791,0.681,0.63,0.426,0.483,0.502
     return kept.map(function(u){ return u[0] + u[1]; }).join(" ");
   }
 
+  /* the gc died the moment this call started, so it rides the same clock */
+  var gcEl = document.getElementById("gc-dead");
+
   function tick(){
     var now = new Date();
     el.textContent = now < start ? "not started yet" : fmt(start, now);
+    if (gcEl){
+      gcEl.textContent = now < start
+        ? "no time at all"
+        : fmt(start, now).replace(/ \d+s$/, "");
+    }
   }
   tick();
   setInterval(tick, 1000);
@@ -942,11 +971,14 @@ var CLIPS = {"p3":{"dur":22.65,"peaks":[0.499,0.791,0.681,0.63,0.426,0.483,0.502
   }
 
   /* how long the newest member has been in the call */
-  var joinedEl = document.querySelector(".fresh[data-joined]");
-  if (joinedEl){
-    var joined = new Date(Number(joinedEl.dataset.joined) * 1000);
+  var joinedEls = document.querySelectorAll(".fresh[data-joined]");
+  if (joinedEls.length){
     var tickJoined = function(){
-      joinedEl.textContent = "joined " + fmt(joined, new Date()).replace(/ \d+s$/, "") + " ago";
+      var now = new Date();
+      joinedEls.forEach(function(fresh){
+        var joined = new Date(Number(fresh.dataset.joined) * 1000);
+        fresh.textContent = "joined " + fmt(joined, now).replace(/ \d+s$/, "") + " ago";
+      });
     };
     tickJoined();
     setInterval(tickJoined, 30000);
