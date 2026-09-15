@@ -181,6 +181,8 @@ body{
 
 .livetag{display:inline-flex;align-items:center;gap:8px;color:var(--live);font-weight:600}
 
+.subline a{color:inherit;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line-vm)}
+.subline a:hover{text-decoration-color:currentColor}
 .subline{
   margin-top:14px;
   max-width:60ch;
@@ -598,8 +600,8 @@ footer a:hover{border-color:var(--ink)}
     </p>
 
     <p class="callout rise d1">the call has been running for</p>
-    <span id="timer" class="rise d1" data-start="1787998260">...</span>
-    <p class="subline rise d1">the old call made it <span id="old-timer" data-start="1785951000" data-end="1787998260">...</span> before this one.</p>
+    <span id="timer" class="rise d1" data-start="1789482300">...</span>
+    <p class="subline rise d1">the last call made it <span class="old-timer" data-start="1787998260" data-end="1789481700">...</span> before this one, and the one before that made it <span class="old-timer" data-start="1785951000" data-end="1787998260">...</span>.</p>
 
     <div class="metaline rise d2">
       <span class="livetag"><span class="dot"></span> still connected</span>
@@ -607,9 +609,9 @@ footer a:hover{border-color:var(--ink)}
       <span>nobody hang up</span>
     </div>
 
-    <p class="subline rise d2">the old call ended because nobody was in it, so the call restarted on <span id="restart">...</span>.</p>
+    <p class="subline rise d2">the old call ended again, this time because discord went down for 10 minutes (<a href="https://files.sillycat.cloud/Screenshot%202026-09-15%20164405.png" target="_blank" rel="noopener">status page screenshot</a>), so the call restarted on <span id="restart">...</span>. the call before that one ended the boring way: nobody was left in it.</p>
 
-    <p class="subline rise d2">the group chat has been dead ever since this one started — school came back the same week. <span id="gc-dead">...</span> without a message in there.</p>
+    <p class="subline rise d2">the group chat has been dead since the call before this one started — school came back the same week. <span id="gc-dead" data-start="1787998260">...</span> of it now: messages still land in there, just in bursts, with long quiet stretches in between.</p>
 
     <h1 class="rise d3">the people <em>keeping it alive</em></h1>
 
@@ -782,9 +784,10 @@ footer a:hover{border-color:var(--ink)}
           <span class="job">outro voice</span>
           <span class="speaknow"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12z"/></svg> speaking</span>
         </div>
-        <p class="blurb">did the outro voiceover on one of the videos. one line in the credits, permanent spot on the roster.</p>
+        <p class="blurb">did the outro voiceover on one of the videos. one line in the credits, permanent spot on the roster. same trick as Wietse for the call itself: the account sitting in there is an alt, his main stays free for normal calls.</p>
         <div class="chips">
           <span class="chip">voiceover</span>
+          <span class="chip">alt in vc</span>
         </div>
         <div class="vm" data-clip="p3">
           <button class="vmbtn" type="button" aria-label="play voice message from Peekeboo">
@@ -910,11 +913,12 @@ var CLIPS = {"p3":{"dur":22.65,"peaks":[0.499,0.791,0.681,0.63,0.426,0.483,0.502
   document.getElementById("restart").textContent =
     start.toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
 
-  var oldEl = document.getElementById("old-timer");
-  oldEl.textContent = fmt(
-    new Date(Number(oldEl.dataset.start) * 1000),
-    new Date(Number(oldEl.dataset.end) * 1000)
-  ).replace(/ 0s$/, "");
+  document.querySelectorAll(".old-timer").forEach(function(span){
+    span.textContent = fmt(
+      new Date(Number(span.dataset.start) * 1000),
+      new Date(Number(span.dataset.end) * 1000)
+    ).replace(/ 0s$/, "");
+  });
 
   function fmt(from, to){
     var cursor = new Date(from);
@@ -941,16 +945,19 @@ var CLIPS = {"p3":{"dur":22.65,"peaks":[0.499,0.791,0.681,0.63,0.426,0.483,0.502
     return kept.map(function(u){ return u[0] + u[1]; }).join(" ");
   }
 
-  /* the gc died the moment this call started, so it rides the same clock */
+  /* the gc died when the call before this one started, so it keeps its own clock across restarts */
   var gcEl = document.getElementById("gc-dead");
+  var gcStart = gcEl && gcEl.dataset.start
+    ? new Date(Number(gcEl.dataset.start) * 1000)
+    : start;
 
   function tick(){
     var now = new Date();
     el.textContent = now < start ? "not started yet" : fmt(start, now);
     if (gcEl){
-      gcEl.textContent = now < start
+      gcEl.textContent = now < gcStart
         ? "no time at all"
-        : fmt(start, now).replace(/ \d+s$/, "");
+        : fmt(gcStart, now).replace(/ \d+s$/, "");
     }
   }
   tick();

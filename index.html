@@ -78,6 +78,16 @@
     font-weight: 400;
     opacity: 0.65;
   }
+  .proof {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .proof:hover {
+    text-decoration-thickness: 2px;
+  }
+
   main {
   background: #000;
   color: #fff;
@@ -104,10 +114,10 @@
     <main>
       <div style="padding: 50px 0;"></div>
       <p class="label">LDC Revived Discord Call has been running for:</p>
-      <span id="timer" data-start="1787998260">—</span>
-      <p class="subnote">The old call lasted <span id="old-timer" data-start="1785951000" data-end="1787998260">—</span>.</p>
+      <span id="timer" data-start="1789482300">—</span>
+      <p class="subnote">The old call lasted <span class="old-timer" data-start="1787998260" data-end="1789481700">—</span>, and the one before that lasted <span class="old-timer" data-start="1785951000" data-end="1787998260">—</span>.</p>
       <p id="tz">Loading...</p>
-      <p class="subnote">The old call ended because nobody was in it, so the call restarted on <span id="restart">...</span>.</p>
+      <p class="subnote">The old call ended again, this time because Discord went down for 10 minutes (<a class="proof" href="https://files.sillycat.cloud/Screenshot%202026-09-15%20164405.png" target="_blank" rel="noopener">status page screenshot</a>), so the call restarted on <span id="restart">...</span>. The call before that one ended the boring way: nobody was left in it.</p>
     </main>
     <div style="padding: 300px 0; background: #000;"></div>
     <div class="seperator"></div>
@@ -134,11 +144,12 @@
   document.getElementById("restart").textContent =
     start.toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
 
-  const oldEl = document.getElementById("old-timer");
-  oldEl.textContent = fmt(
-    new Date(Number(oldEl.dataset.start) * 1000),
-    new Date(Number(oldEl.dataset.end) * 1000)
-  ).replace(/ 0s$/, "");
+  document.querySelectorAll(".old-timer").forEach((span) => {
+    span.textContent = fmt(
+      new Date(Number(span.dataset.start) * 1000),
+      new Date(Number(span.dataset.end) * 1000)
+    ).replace(/ 0s$/, "");
+  });
 
   function fmt(from, to) {
     const cursor = new Date(from);
