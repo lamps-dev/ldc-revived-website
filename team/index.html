@@ -524,6 +524,101 @@ h1 em{font-style:normal;color:var(--blurple)}
 .member.left:hover{box-shadow:none;border-color:var(--husk)}
 .member.left .name{opacity:.75}
 
+/* ---------- lamp's birthday ---------- */
+
+.bday{
+  margin-top:20px;
+  padding:20px 24px 22px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  background:var(--card);
+  box-shadow:0 10px 0 -4px var(--shadow-soft);
+}
+
+.bday[hidden]{display:none}
+
+.bday-head{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-family:"IBM Plex Mono",monospace;
+  font-size:.74rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+
+.bday-label em{font-style:normal;color:var(--blurple)}
+.bday-label .post{display:none}
+.bday.party .bday-label .pre{display:none}
+.bday.party .bday-label .post{display:inline;color:var(--blurple)}
+
+.bday-close{
+  margin-left:auto;
+  flex:0 0 auto;
+  width:28px;height:28px;
+  border:1px solid var(--husk);
+  border-radius:50%;
+  background:var(--well);
+  color:var(--ink-soft);
+  font:inherit;
+  font-size:1rem;
+  letter-spacing:0;
+  line-height:1;
+  cursor:pointer;
+  transition:border-color .2s ease,color .2s ease;
+}
+
+.bday-close:hover{border-color:var(--ink);color:var(--ink)}
+
+.bday-count{
+  display:block;
+  width:fit-content;
+  font-family:"IBM Plex Mono",monospace;
+  font-weight:600;
+  font-size:clamp(2.3rem,10.5vw,6.2rem);
+  letter-spacing:-.03em;
+  line-height:1.02;
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:"tnum";
+  margin:.14em 0 .12em;
+}
+
+.bday-when{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:.78rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+
+.bday-count.beat{animation:beat .55s cubic-bezier(.2,.7,.2,1)}
+@keyframes beat{0%{transform:scale(1.14)}100%{transform:none}}
+
+.bday.pop{animation:pop .8s cubic-bezier(.2,1.6,.3,1)}
+@keyframes pop{0%{transform:scale(.9)}100%{transform:none}}
+
+.bday.flash{animation:flash 1.3s ease}
+@keyframes flash{30%{border-color:var(--blurple);box-shadow:0 0 0 5px var(--key-bg)}}
+
+.bday-link{color:var(--blurple);text-decoration:underline;text-underline-offset:3px;text-decoration-style:dotted}
+.bday-link:hover{text-decoration-style:solid}
+
+/* the last ten seconds: the page leans in, the edges go dark */
+html.bday-final{overflow:hidden}
+html.bday-final main{will-change:transform}
+
+.vignette{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:98;
+  opacity:0;
+  transition:opacity .9s ease;
+}
+
+.confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:120}
+
 /* ---------- footer ---------- */
 
 footer{
@@ -589,6 +684,15 @@ footer a:hover{border-color:var(--ink)}
 
 <main class="wrap">
 
+  <section class="bday" id="bday" hidden>
+    <div class="bday-head">
+      <span class="bday-label"><span class="pre">lamp's <em>birthday</em> in</span><span class="post">happy birthday lamp · next one in</span></span>
+      <button class="bday-close" type="button" aria-label="hide the birthday countdown">×</button>
+    </div>
+    <span class="bday-count">...</span>
+    <span class="bday-when"></span>
+  </section>
+
   <section class="hero">
     <p class="eyebrow rise">
       <span>LDC Revived</span><span class="rule"></span><span>the crew</span>
@@ -645,7 +749,7 @@ footer a:hover{border-color:var(--ink)}
           <span class="job">everything, basically</span>
           <span class="speaknow"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12z"/></svg> speaking</span>
         </div>
-        <p class="blurb">Thumbnails, most of the update videos, and the voice you hear over them. Also records a big chunk of the call, because someone has to.</p>
+        <p class="blurb">Thumbnails, most of the update videos, and the voice you hear over them. Also records a big chunk of the call, because someone has to. Gets a year older every September 23rd (<a class="bday-link" href="#bday">lamp's birthday</a>).</p>
         <div class="chips">
           <span class="chip">thumbnails</span>
           <span class="chip">editing</span>
@@ -782,13 +886,13 @@ footer a:hover{border-color:var(--ink)}
       <div>
         <div class="top">
           <span class="name">Whirrling</span>
-          <span class="job">still in there</span>
+          <span class="job">on thin ice</span>
           <span class="fresh" data-joined="1788001200">...</span>
           <span class="speaknow"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12z"/></svg> speaking</span>
         </div>
-        <p class="blurb">walked into the call one afternoon and has not left since, which is the entire job description.</p>
+        <p class="blurb">possibly too inactive, if he doesn't join the call in a while he's kicked out.</p>
         <div class="chips">
-          <span class="chip">never left</span>
+          <span class="chip">inactive</span>
         </div>
       </div>
     </article>
@@ -989,6 +1093,233 @@ var CLIPS = {"p3":{"dur":22.65,"peaks":[0.499,0.791,0.681,0.63,0.426,0.483,0.502
     };
     tickJoined();
     setInterval(tickJoined, 30000);
+  }
+
+  /* ---------- lamp's birthday ---------- */
+
+  var bday = document.getElementById("bday");
+  if (bday){
+    var bdayCount = bday.querySelector(".bday-count");
+    var bdayWhen  = bday.querySelector(".bday-when");
+    var page = document.querySelector("main");
+
+    var vignette = document.createElement("div");
+    vignette.className = "vignette";
+    vignette.setAttribute("aria-hidden", "true");
+    document.body.appendChild(vignette);
+
+    var pinned = false, dismissed = false, finale = false, lastSec = -1;
+
+    /* ?bdaytest=leoleomeowballs replays the last 15 seconds before 7pm on the 23rd;
+       add &at=2026-11-05T12:00 to start the clock somewhere else instead */
+    var skew = 0;
+    var params = new URLSearchParams(location.search);
+    if (params.get("bdaytest") === "leoleomeowballs"){
+      var at = params.get("at") ? new Date(params.get("at")) : new Date(new Date().getFullYear(), 8, 23, 18, 59, 45);
+      if (!isNaN(at)) skew = at - Date.now();
+    }
+    var bdayNow = function(){ return new Date(Date.now() + skew); };
+
+    /* sept 23, 7pm in whatever timezone the viewer is in */
+    var bdayAt = function(y){ return new Date(y, 8, 23, 19); };
+    var nextBday = function(now){
+      var t = bdayAt(now.getFullYear());
+      return now < t ? t : bdayAt(now.getFullYear() + 1);
+    };
+    /* shows itself from the morning of the 23rd until october starts */
+    var inSeason = function(now){
+      var y = now.getFullYear();
+      return now >= new Date(y, 8, 23) && now < new Date(y, 9, 1);
+    };
+    var celebrated = function(now){
+      var y = now.getFullYear();
+      return now >= bdayAt(y) && now < new Date(y, 9, 1);
+    };
+
+    var target = nextBday(bdayNow());
+
+    var pad = function(n){ return (n < 10 ? "0" : "") + n; };
+    var countdown = function(ms){
+      var s = Math.max(0, Math.ceil(ms / 1000));
+      var d = Math.floor(s / 86400); s %= 86400;
+      var h = Math.floor(s / 3600);  s %= 3600;
+      var m = Math.floor(s / 60);    s %= 60;
+      return (d ? d + "d " : "") + pad(h) + ":" + pad(m) + ":" + pad(s);
+    };
+
+    var restart = function(node, cls){
+      node.classList.remove(cls);
+      void node.offsetWidth;
+      node.classList.add(cls);
+    };
+
+    var renderBday = function(){
+      if (finale) return;
+      var now = bdayNow();
+      var show = pinned || (inSeason(now) && !dismissed);
+      bday.hidden = !show;
+      if (!show) return;
+
+      var left = target - now;
+      if (left <= 0){ target = nextBday(now); left = target - now; }
+
+      bday.classList.toggle("party", celebrated(now));
+      bdayCount.textContent = countdown(left);
+      bdayWhen.textContent = target.toLocaleDateString([], { month: "long", day: "numeric", year: "numeric" }) + ", 7pm your time";
+
+      if (left <= 10000) startFinale();
+    };
+
+    var startFinale = function(){
+      finale = true;
+      if (reduce) return requestAnimationFrame(finaleFrame);
+      window.scrollTo({ top: 0, behavior: "instant" });
+      root.classList.add("bday-final");
+      var p = page.getBoundingClientRect();
+      var c = bdayCount.getBoundingClientRect();
+      page.style.transformOrigin = (c.left + c.width / 2 - p.left) + "px " + (c.top + c.height / 2 - p.top) + "px";
+      requestAnimationFrame(finaleFrame);
+    };
+
+    var finaleFrame = function(){
+      var left = target - bdayNow();
+      if (left <= 0) return celebrate();
+
+      var sec = Math.ceil(left / 1000);
+      if (sec !== lastSec){
+        lastSec = sec;
+        bdayCount.textContent = countdown(left);
+        if (!reduce) restart(bdayCount, "beat");
+      }
+
+      if (!reduce){
+        var t = Math.min(1, Math.max(0, 1 - left / 10000));
+        var shake = left < 3000 ? (1 - left / 3000) * 6 : 0;
+        var dx = (Math.random() - .5) * 2 * shake;
+        var dy = (Math.random() - .5) * 2 * shake;
+        page.style.transform = "translate(" + dx + "px," + dy + "px) scale(" + (1 + 1.15 * t * t) + ")";
+        vignette.style.opacity = 1;
+        vignette.style.boxShadow = "inset 0 0 " + (8 + 50 * t) + "vmin " + (3 + 28 * t) + "vmin rgba(8,5,2," + (.35 + .6 * t) + ")";
+      }
+
+      requestAnimationFrame(finaleFrame);
+    };
+
+    var celebrate = function(){
+      finale = false;
+      lastSec = -1;
+      target = nextBday(bdayNow());
+
+      page.style.transition = "transform .9s cubic-bezier(.2,1.35,.3,1)";
+      page.style.transform = "";
+      vignette.style.opacity = 0;
+      setTimeout(function(){
+        page.style.transition = "";
+        page.style.transformOrigin = "";
+        root.classList.remove("bday-final");
+      }, 950);
+
+      renderBday();
+      if (!reduce){
+        restart(bday, "pop");
+        confetti();
+      }
+    };
+
+    var confetti = function(){
+      var cv = document.createElement("canvas");
+      cv.className = "confetti";
+      cv.setAttribute("aria-hidden", "true");
+      document.body.appendChild(cv);
+
+      var ctx = cv.getContext("2d");
+      var dpr = window.devicePixelRatio || 1;
+      var W = innerWidth, H = innerHeight;
+      cv.width = W * dpr; cv.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      var colors = ["#5865f2", "#1f9d55", "#c9a96a", "#f5deb3", "#e8744f", "#f2c14e", "#d45d9b", "#8d95ff"];
+      var bits = [];
+      var burst = function(x, y, n, angle, spread, lo, hi){
+        for (var i = 0; i < n; i++){
+          var a = angle + (Math.random() - .5) * spread;
+          var v = lo + Math.random() * (hi - lo);
+          bits.push({
+            x: x, y: y,
+            vx: Math.cos(a) * v, vy: Math.sin(a) * v,
+            w: 6 + Math.random() * 6, h: 9 + Math.random() * 9,
+            r: Math.random() * 6.28, vr: (Math.random() - .5) * .35,
+            flip: Math.random() * 6.28,
+            c: colors[Math.floor(Math.random() * colors.length)],
+            life: 0, max: 260 + Math.random() * 160
+          });
+        }
+      };
+
+      var c = bdayCount.getBoundingClientRect();
+      burst(c.left + c.width / 2, c.top + c.height / 2, 180, -Math.PI / 2, Math.PI * 2, 6, 19);
+      burst(0, H, 140, -Math.PI / 3.2, .55, 16, 27);
+      burst(W, H, 140, -Math.PI + Math.PI / 3.2, .55, 16, 27);
+      setTimeout(function(){
+        for (var i = 0; i < 160; i++) burst(Math.random() * W, -20, 1, Math.PI / 2, .6, 1, 4);
+      }, 700);
+
+      var last = performance.now();
+      var step = function(now){
+        var k = Math.min(3, (now - last) / 16.67);
+        last = now;
+        ctx.clearRect(0, 0, W, H);
+
+        bits = bits.filter(function(b){
+          b.life += k;
+          b.vy += .32 * k;
+          b.vx *= Math.pow(.985, k);
+          b.vy *= Math.pow(.985, k);
+          b.x += (b.vx + Math.sin(b.flip) * .8) * k;
+          b.y += b.vy * k;
+          b.r += b.vr * k;
+          b.flip += .12 * k;
+
+          var fade = Math.min(1, (b.max - b.life) / 60);
+          if (fade <= 0 || b.y > H + 40) return false;
+
+          ctx.save();
+          ctx.globalAlpha = fade;
+          ctx.translate(b.x, b.y);
+          ctx.rotate(b.r);
+          ctx.scale(1, Math.cos(b.flip));
+          ctx.fillStyle = b.c;
+          ctx.fillRect(-b.w / 2, -b.h / 2, b.w, b.h);
+          ctx.restore();
+          return true;
+        });
+
+        if (bits.length) requestAnimationFrame(step);
+        else cv.remove();
+      };
+      requestAnimationFrame(step);
+    };
+
+    /* outside the season, the link on lamp's card is the only way to see it */
+    document.querySelectorAll(".bday-link").forEach(function(a){
+      a.addEventListener("click", function(e){
+        e.preventDefault();
+        pinned = true;
+        dismissed = false;
+        renderBday();
+        bday.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+        restart(bday, "flash");
+      });
+    });
+
+    bday.querySelector(".bday-close").addEventListener("click", function(){
+      pinned = false;
+      dismissed = true;
+      renderBday();
+    });
+
+    renderBday();
+    setInterval(renderBday, 250);
   }
 
   /* cards slide in as you scroll */
