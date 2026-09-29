@@ -776,6 +776,14 @@ footer a:hover{border-color:var(--ink)}
           <span class="chip">the archive</span>
           <span class="chip key">channel access</span>
         </div>
+        <div class="vm" data-clip="brett">
+          <button class="vmbtn" type="button" aria-label="play voice message from Brett">
+            <svg class="ico-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="ico-pause" viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+          </button>
+          <div class="wave"></div>
+          <span class="vmtime">0:00</span>
+        </div>
       </div>
     </article>
 
@@ -907,9 +915,10 @@ footer a:hover{border-color:var(--ink)}
           <span class="status">maybe temporary</span>
           <span class="speaknow"><svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12z"/></svg> speaking</span>
         </div>
-        <p class="blurb">walked in at half two one afternoon to cover while Brett's NUC is still a paperweight, so this might be a short stay — depends entirely on that power supply.</p>
+        <p class="blurb">walked in at half two one afternoon to cover while Brett's NUC is still a paperweight, so this might be a short stay — depends entirely on that power supply. got handed the keys to the youtube channel too.</p>
         <div class="chips">
           <span class="chip">nuc stand-in</span>
+          <span class="chip key">channel access</span>
         </div>
       </div>
     </article>
@@ -983,7 +992,7 @@ footer a:hover{border-color:var(--ink)}
 </main>
 
 <script>
-var CLIPS = {"p3":{"dur":22.65,"peaks":[0.499,0.791,0.681,0.63,0.426,0.483,0.502,0.154,0.006,0.007,0.315,0.541,0.459,0.042,0.611,0.731,0.673,0.674,0.689,0.534,0.509,0.513,0.696,0.527,0.498,0.282,0.59,0.669,0.045,0.582,0.688,0.613,0.11,0.939,1.0,0.992,0.411,0.686,0.593,0.565,0.495,0.13,0.009,0.006],"src":"../team/src/p3.mp3"},"crecher":{"dur":20.04,"peaks":[0.495,0.525,0.034,0.263,1.0,0.777,0.796,0.544,0.684,0.734,0.491,0.656,0.043,0.024,0.601,0.933,0.752,0.484,0.714,0.025,0.182,0.621,0.667,0.057,0.628,0.024,0.501,0.636,0.027,0.407,0.925,0.99,0.823,0.568,0.458,0.849,0.887,0.767,0.85,0.453,0.673,0.579,0.516,0.18],"src":"../team/src/crecher.mp3"},"th3":{"dur":16.0,"peaks":[0.441,0.776,0.822,0.709,0.735,0.035,0.112,0.383,0.11,1.0,0.472,0.593,0.702,0.747,0.134,0.585,0.455,0.545,0.713,0.572,0.75,0.165,0.094,0.664,0.72,0.302,0.442,0.409,0.016,0.047,0.603,0.394,0.45,0.39,0.138,0.138,0.616,0.358,0.03,0.467,0.417,0.322,0.169,0.009],"src":"../team/src/th3.mp3"}};
+var CLIPS = {"brett":{"dur":12.59,"peaks":[1.0,0.702,0.648,0.525,0.478,0.0,0.458,0.33,0.908,0.223,0.001,0.805,0.729,0.583,0.291,0.79,0.433,0.004,0.643,0.776,0.319,0.398,0.484,0.569,0.39,0.553,0.414,0.649,0.727,0.94,0.531,0.718,0.461,0.984,0.417,0.951,0.846,0.71,0.343,0.045,0.001,0.0,0.0,0.0],"src":"../team/src/brett.mp3"},"p3":{"dur":22.65,"peaks":[0.499,0.791,0.681,0.63,0.426,0.483,0.502,0.154,0.006,0.007,0.315,0.541,0.459,0.042,0.611,0.731,0.673,0.674,0.689,0.534,0.509,0.513,0.696,0.527,0.498,0.282,0.59,0.669,0.045,0.582,0.688,0.613,0.11,0.939,1.0,0.992,0.411,0.686,0.593,0.565,0.495,0.13,0.009,0.006],"src":"../team/src/p3.mp3"},"crecher":{"dur":20.04,"peaks":[0.495,0.525,0.034,0.263,1.0,0.777,0.796,0.544,0.684,0.734,0.491,0.656,0.043,0.024,0.601,0.933,0.752,0.484,0.714,0.025,0.182,0.621,0.667,0.057,0.628,0.024,0.501,0.636,0.027,0.407,0.925,0.99,0.823,0.568,0.458,0.849,0.887,0.767,0.85,0.453,0.673,0.579,0.516,0.18],"src":"../team/src/crecher.mp3"},"th3":{"dur":16.0,"peaks":[0.441,0.776,0.822,0.709,0.735,0.035,0.112,0.383,0.11,1.0,0.472,0.593,0.702,0.747,0.134,0.585,0.455,0.545,0.713,0.572,0.75,0.165,0.094,0.664,0.72,0.302,0.442,0.409,0.016,0.047,0.603,0.394,0.45,0.39,0.138,0.138,0.616,0.358,0.03,0.467,0.417,0.322,0.169,0.009],"src":"../team/src/th3.mp3"}};
 
 (function(){
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
