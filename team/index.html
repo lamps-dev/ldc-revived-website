@@ -857,7 +857,7 @@ footer a:hover{border-color:var(--ink)}
     </article>
 
     <article class="member">
-      <div class="av" style="background:#6b5738">P</div>
+      <div class="av" style="background:#6b5738"><img src="../team/src/peekeboo.webp" alt="Peekeboo" loading="lazy"></div>
       <div>
         <div class="top">
           <span class="name">Peekeboo</span>
@@ -924,7 +924,7 @@ footer a:hover{border-color:var(--ink)}
     <p class="note">people who were in it and are not anymore. still part of how it started.</p>
 
     <article class="member left">
-      <div class="av" style="background:#9a8f7c">C</div>
+      <div class="av" style="background:#9a8f7c"><img src="../team/src/cutesy.webp" alt="Cutesy" loading="lazy"></div>
       <div>
         <div class="top">
           <span class="name">Cutesy</span>
@@ -1139,10 +1139,10 @@ var CLIPS = {"p3":{"dur":22.65,"peaks":[0.499,0.791,0.681,0.63,0.426,0.483,0.502
       var t = bdayAt(now.getFullYear());
       return now < t ? t : bdayAt(now.getFullYear() + 1);
     };
-    /* shows itself from the morning of the 23rd until october starts */
+    /* shows itself from 5 days out (sept 18) until october starts */
     var inSeason = function(now){
       var y = now.getFullYear();
-      return now >= new Date(y, 8, 23) && now < new Date(y, 9, 1);
+      return now >= new Date(y, 8, 18) && now < new Date(y, 9, 1);
     };
     var celebrated = function(now){
       var y = now.getFullYear();
